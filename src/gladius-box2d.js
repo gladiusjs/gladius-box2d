@@ -12,7 +12,7 @@ define( function ( require ) {
         "resolver": {
           service: require( "src/services/resolver" ),
           components: {
-            Body: require( "src/components/body" )
+            "Body": require( "src/components/body" )
           },
           resources: {
           }
@@ -23,9 +23,9 @@ define( function ( require ) {
       },
       
       resources: {
-        BodyDefinition: require( "src/resources/body-definition" ),
-        FixtureDefinition: require( "src/resources/fixture-definition" ),
-        BoxShape: require( "src/resources/box-shape" )
+        "BodyDefinition": require( "src/resources/body-definition" ),
+        "FixtureDefinition": require( "src/resources/fixture-definition" ),
+        "BoxShape": require( "src/resources/box-shape" )
       }
       
   });
