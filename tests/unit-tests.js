@@ -5,7 +5,7 @@ if ( typeof define !== "function" ) {
 define( function( require ) {
 
   return [
-
+    "src/resources/body-definition.test"
 
           ];
 
