@@ -1,7 +1,3 @@
-//There is totally documentation for this that will be helpful
-//Don't use alon zackai's version of box2d, use the one that is checked in
-//Also look at old-src in the gladius develop branch
-
 if ( typeof define !== "function" ) {
   var define = require( "amdefine" )( module );
 }
