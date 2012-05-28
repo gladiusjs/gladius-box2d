@@ -19,12 +19,13 @@ define( function ( require ) {
     } else {
       throw 'missing body definition';
     }
+
     if( options.fixtureDefinition ) {
       this._box2dBody.CreateFixture( options.fixtureDefinition );
     }
     //TODO: Find out what this does
     this._box2dBody.component = this;  // TD: this might be a bad idea
-    this._box2dBody.SetLinearVelocity( new Box2D.b2Vec2( 0, 0 ) );
+    this._box2dBody.SetLinearVelocity( new Box2D.b2Vec2( 0, 0 ) );f
 
     Object.defineProperty(this, 'active', {
       get: function getActive() {
