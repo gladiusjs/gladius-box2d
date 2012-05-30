@@ -6,12 +6,14 @@ define( function ( require ) {
   require( "box2d" );
   var FixtureDefinition = function( options ) {
     options = options || {};
-    if( !options.hasOwnProperty( 'shape') ) {
+    if( !options.hasOwnProperty( 'shape' ) ) {
       throw 'missing shape';
     }
-    this.box2dFixtureDef = new Box2D.b2FixtureDef();
-    this.box2dFixtureDef.set_density( options.hasOwnProperty( 'density' ) ? options.density : 1 );
-    this.box2dFixtureDef.set_shape( options.shape.box2dPolygonShape );
+    var box2dFixtureDef = new Box2D.b2FixtureDef();
+    box2dFixtureDef._gladius = {};
+    box2dFixtureDef.set_density( options.hasOwnProperty( 'density' ) ? options.density : 1 );
+    box2dFixtureDef.set_shape( options.shape );
+    return box2dFixtureDef;
   };
   return FixtureDefinition;
 });

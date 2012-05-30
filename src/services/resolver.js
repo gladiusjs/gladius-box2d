@@ -15,11 +15,11 @@ define( function ( require ) {
         tags: ["@update", "physics"],
         dependsOn: []
       }
-    }
+    };
     Service.call( this, scheduler, schedules );
 
-    this.gravity = new Box2D.b2Vec2( options.gravity[0], options.gravity[1] ) ||
-                   new Box2D.b2Vec2( 0, 0 );
+    options.gravity = options.gravity || [0, 0];
+    this.gravity = new Box2D.b2Vec2( options.gravity[0], options.gravity[1] );
     this.world = new Box2D.b2World( this.gravity );
 
     var contactListener = new Box2D.b2ContactListener();
@@ -41,7 +41,7 @@ define( function ( require ) {
               data: {
                 entities: [entityA, entityB]
               }
-            }).dispatch( [entityA, entityB] );                        
+            }).dispatch( [entityA, entityB] );
           }
         },
         {
@@ -80,7 +80,7 @@ define( function ( require ) {
             }
         }
     ]);
-    world.SetContactListener( contactListener );
+    this.world.SetContactListener( contactListener );
   };
 
   function resolve() {
@@ -90,5 +90,7 @@ define( function ( require ) {
   Resolver.prototype = new Service();
   Resolver.prototype.constructor = Resolver;
   Resolver.prototype.resolve = resolve;
+
+  return Resolver;
 
 });

@@ -7,20 +7,22 @@ define( function ( require ) {
   var BodyDefinition = function( options ) {
     options = options || {};
 
-    this.box2dBodyDef = new Box2D.b2BodyDef();
-    this.box2dBodyDef.set_type( options.hasOwnProperty( 'type' ) ?
+    var box2dBodyDef = new Box2D.b2BodyDef();
+    box2dBodyDef._gladius = {};
+    box2dBodyDef.set_type( options.hasOwnProperty( 'type' ) ?
       options.type : Box2D.b2_dynamicBody );
-    this.box2dBodyDef.set_linearDamping( options.hasOwnProperty( 'linearDamping' ) ?
+    box2dBodyDef.set_linearDamping( options.hasOwnProperty( 'linearDamping' ) ?
       options.linearDamping : 0 );
-    this.box2dBodyDef.set_angularDamping( options.hasOwnProperty( 'angularDamping' ) ?
+    box2dBodyDef.set_angularDamping( options.hasOwnProperty( 'angularDamping' ) ?
       options.angularDamping : 0 );
-    this.box2dBodyDef.set_fixedRotation( options.hasOwnProperty( 'fixedRotation' ) ?
+    box2dBodyDef.set_fixedRotation( options.hasOwnProperty( 'fixedRotation' ) ?
       options.fixedRotation : false );
-    this.box2dBodyDef.set_angularVelocity( options.hasOwnProperty( 'angularVelocity' ) ?
+    box2dBodyDef.set_angularVelocity( options.hasOwnProperty( 'angularVelocity' ) ?
       options.angularVelocity : 0 );
-    this.box2dBodyDef.set_position( new Box2D.b2Vec2( 0, 0 ) );
-    this.box2dBodyDef.set_active( false );
-    this.box2dBodyDef.set_awake( false );
+    box2dBodyDef.set_position( new Box2D.b2Vec2( 0, 0 ) );
+    box2dBodyDef.set_active( false );
+    box2dBodyDef.set_awake( false );
+    return box2dBodyDef;
   };
   BodyDefinition.BodyTypes = {
     STATIC: Box2D.b2_staticBody,

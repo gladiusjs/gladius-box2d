@@ -8,8 +8,10 @@ define( function ( require ) {
   var BoxShape = function( hx, hy ) {
     hx = hx || 1;
     hy = hy || 1;
-    this.box2dPolygonShape = new Box2D.b2PolygonShape();
-    this.box2dPolygonShape.SetAsBox( hx, hy );
+    var box2dPolygonShape = new Box2D.b2PolygonShape();
+    box2dPolygonShape._gladius = {};
+    box2dPolygonShape.SetAsBox( hx, hy );
+    return box2dPolygonShape;
   };
   return BoxShape;
 });

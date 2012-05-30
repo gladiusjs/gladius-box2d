@@ -28,7 +28,7 @@ define(
         fixtureDef = new FixtureDefinition({
           shape: box
         });
-        equal(fixtureDef.box2dFixtureDef.get_density(), 1, "default density is correct");
+        equal(fixtureDef.get_density(), 1, "default density is correct");
 
       });
 
@@ -41,8 +41,8 @@ define(
           shape: box,
           density: 20
         });
-        equal(fixtureDef.box2dFixtureDef.get_shape(), box.box2dPolygonShape.ptr, "fixture has correct shape");
-        equal(fixtureDef.box2dFixtureDef.get_density(), 20, "density is correct");
+        equal(fixtureDef.get_shape(), box.ptr, "fixture has correct shape");
+        equal(fixtureDef.get_density(), 20, "density is correct");
 
       });
 
