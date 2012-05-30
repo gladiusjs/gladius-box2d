@@ -37,7 +37,7 @@ define(
 
         var box = new BoxShape( 1, 1 );
 
-        fixtureDef = new FixtureDefinition({
+        var fixtureDef = new FixtureDefinition({
           shape: box,
           density: 20
         });
