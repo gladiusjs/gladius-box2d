@@ -17,14 +17,14 @@ define( function ( require ) {
     if( options.bodyDefinition) {
       this.box2dBody = service.world.CreateBody( options.bodyDefinition );
     } else {
-      throw 'missing body definition';
+      throw new Error( "missing body definition" );
     }
 
     if( options.fixtureDefinition ) {
       this.box2dBody.CreateFixture( options.fixtureDefinition );
     }
     this.box2dBody.component = this;  // TD: this might be a bad idea because we're assigning a javascript
-    //property to something that is basically c++ code
+                                      //     property to something that is basically c++ code
     this.box2dBody.SetLinearVelocity( new Box2D.b2Vec2( 0, 0 ) );
 
     Object.defineProperty(this, 'active', {
@@ -56,9 +56,9 @@ define( function ( require ) {
     var angle2 = this.box2dBody.GetAngle();
 
     // TD: This will cause the transform to emit an event that we handle below. Blech!
-    var transform = this.owner.findComponent( 'Transform');
-    transform.position = math.Vector3( position2.get_x(), position2.get_y(), transform.position[2] );
-    transform.rotation = math.Vector3( transform.rotation[0], transform.rotation[1], angle2 );
+    var transform = this.owner.findComponent( "Transform" );
+    transform.setPosition( math.Vector3( position2.get_x(), position2.get_y(), transform.position[2] ) );
+    transform.setRotation( math.Vector3( transform.rotation[0], transform.rotation[1], angle2 ) );
   }
 
   function onEntitySpaceChanged( event ) {
