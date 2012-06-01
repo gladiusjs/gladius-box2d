@@ -39,12 +39,7 @@ define( function ( require ) {
             var entityA = bodyA.component.owner;
             var entityB = bodyB.component.owner;
               
-            new engine.core.Event({
-              type: 'ContactBegin',
-              data: {
-                entities: [entityA, entityB]
-              }
-            }).dispatch( [entityA, entityB] );
+            new Event('ContactBegin', [entityA, entityB]).dispatch( [entityA, entityB] );
           }
         },
         {
@@ -62,12 +57,7 @@ define( function ( require ) {
                   return;
                 }
 
-                new engine.core.Event({
-                    type: 'ContactEnd',
-                    data: {
-                      entities: [entityA, entityB]
-                  }
-              }).dispatch( [entityA, entityB] );
+                new Event('ContactEnd', [entityA, entityB]).dispatch( [entityA, entityB] );
             }
         },
         {
@@ -89,18 +79,26 @@ define( function ( require ) {
   function resolve() {
     var component;
 
+    //Defining space here and then pulling the space from one of the components
+    //because we do not currently have the ability to have multiple worlds.
+    //Once we do each world will have a specific space
+    var space;
+
+    var registeredComponents = this._registeredComponents;
+
     // Update all graphics components
     var updateEvent = new Event( 'Update', false );
     for( var componentType in registeredComponents ) {
       for( var entityId in registeredComponents[componentType] ) {
         component = registeredComponents[componentType][entityId];
+        space = component.owner.space;
         while( component.handleQueuedEvent() ) {}
         updateEvent( component );
       }
     }
 
     // Box2D steps in seconds
-    this._timeRemaining += that.time.delta;
+    this._timeRemaining += space.clock.delta;
     while( this._timeRemaining >= this._timeStep ) {
       this.world.Step( this._timeStep/1000, 2, 2 );
       this._timeRemaining -= this._timeStep;
