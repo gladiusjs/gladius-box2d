@@ -93,7 +93,7 @@ define( function ( require ) {
         component = registeredComponents[componentType][entityId];
         space = component.owner.space;
         while( component.handleQueuedEvent() ) {}
-        updateEvent( component );
+        updateEvent.dispatch( component );
       }
     }
 
