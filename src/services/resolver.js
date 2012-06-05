@@ -86,7 +86,7 @@ define( function ( require ) {
 
     var registeredComponents = this._registeredComponents;
 
-    // Update all graphics components
+    // Update all physics components
     var updateEvent = new Event( 'Update', false );
     for( var componentType in registeredComponents ) {
       for( var entityId in registeredComponents[componentType] ) {
