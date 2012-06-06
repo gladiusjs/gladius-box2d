@@ -12,7 +12,8 @@ define( function ( require ) {
         "resolver": {
           service: require( "src/services/resolver" ),
           components: {
-            "Body": require( "src/components/body" )
+            "Body": require( "src/components/body" ),
+            "Force": require( "src/components/force" )
           },
           resources: {
           }
