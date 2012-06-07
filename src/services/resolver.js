@@ -93,7 +93,8 @@ define( function ( require ) {
     // Also make sure that we transform each force according to the transforms of whatever parent objects that transform has
     // this would be a good unit test
     var totalForce = new math.Vector2();
-    for (var entityId in registeredComponents["Force"]){
+    var entityId;
+    for (entityId in registeredComponents["Force"]){
       math.vector2.add(totalForce, registeredComponents["Force"][entityId].getForce(), totalForce);
     }
 
@@ -103,7 +104,7 @@ define( function ( require ) {
     // Update all physics components
     var updateEvent = new Event( 'Update', false );
     for( var componentType in registeredComponents ) {
-      for( var entityId in registeredComponents[componentType] ) {
+      for( entityId in registeredComponents[componentType] ) {
         component = registeredComponents[componentType][entityId];
         space = component.owner.space;
         while( component.handleQueuedEvent() ) {}

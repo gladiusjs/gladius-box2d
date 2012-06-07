@@ -25,6 +25,12 @@ define( function ( require ) {
       this._magnitude = 0;
     }
 
+    if (options.forceType){
+      this._forceType = options.forceType;
+    }else{
+      this._forceType = 0;
+    }
+
     Object.defineProperty(this, 'active', {
       get: function getActive() {
         return this._active ? true : false;
@@ -95,6 +101,10 @@ define( function ( require ) {
     onEntityActivationChanged: onEntityActivationChanged
   };
   extend( Force.prototype, prototype );
+
+  Force.ForceTypes = {
+    GLOBAL : 0
+  };
 
   return Force;
 });
