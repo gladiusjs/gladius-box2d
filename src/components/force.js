@@ -20,17 +20,13 @@ define( function ( require ) {
     }
 
     if (options.forceType){
-      this._forceType = options.forceType;
+      this.forceType = options.forceType;
     }else{
-      this._forceType = 0;
+      this.forceType = 0;
     }
   };
   Force.prototype = new Component();
   Force.prototype.constructor = Force;
-
-  function getForce() {
-    return this.force;
-  }
 
   function onUpdate( event ) {
 
@@ -68,7 +64,6 @@ define( function ( require ) {
   }
 
   var prototype = {
-    getForce: getForce,
     onUpdate: onUpdate,
     onEntitySpaceChanged: onEntitySpaceChanged,
     onComponentOwnerChanged: onComponentOwnerChanged,
