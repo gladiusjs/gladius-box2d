@@ -6,6 +6,7 @@ define( function ( require ) {
 
   var Service = require( "base/service" );
   var Event = require( "core/event" );
+  var math = require( "_math" );
   require( "box2d" );
 
   var Resolver = function( scheduler, options ) {
@@ -86,10 +87,23 @@ define( function ( require ) {
 
     var registeredComponents = this._registeredComponents;
 
+    //Go through the list of registered components,
+    // add up all the global forces into gravity,
+    // and then set the gravity on the world
+    // TODO: Make sure that we transform each force according to the transforms of whatever parent objects it has
+    var totalForce = new math.Vector2();
+    var entityId;
+    for (entityId in registeredComponents["Force"]){
+      math.vector2.add(totalForce, registeredComponents["Force"][entityId].force, totalForce);
+    }
+
+    var newGravity = new Box2D.b2Vec2(totalForce[0], totalForce[1]);
+
+    this.world.SetGravity(newGravity);
     // Update all physics components
     var updateEvent = new Event( 'Update', false );
     for( var componentType in registeredComponents ) {
-      for( var entityId in registeredComponents[componentType] ) {
+      for( entityId in registeredComponents[componentType] ) {
         component = registeredComponents[componentType][entityId];
         space = component.owner.space;
         while( component.handleQueuedEvent() ) {}
