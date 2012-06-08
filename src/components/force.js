@@ -13,16 +13,10 @@ define( function ( require ) {
     options = options || {};
     var that = this;
 
-    if (options.direction){
-      this._direction = math.vector2.normalize(options.direction);
+    if (options.force){
+      this.force = options.force;
     }else{
-      this._direction = new math.Vector2();
-    }
-
-    if (options.magnitude){
-      this._magnitude = options.magnitude;
-    }else{
-      this._magnitude = 0;
+      this.force = new math.Vector2();
     }
 
     if (options.forceType){
@@ -30,32 +24,12 @@ define( function ( require ) {
     }else{
       this._forceType = 0;
     }
-
-    Object.defineProperty(this, 'active', {
-      get: function getActive() {
-        return this._active ? true : false;
-      },
-      set: function setActive( val ) {
-        this._active = val ? true : false;
-      }
-    });
-
-    //We could optionally cache the total resulting force vector
-    if (options.hasOwnProperty("active")){
-      this.active = options.isActive;
-    }else{
-      this.active = true;
-    }
   };
   Force.prototype = new Component();
   Force.prototype.constructor = Force;
 
   function getForce() {
-    if (this.active){
-      return math.vector2.multiply(this._direction, this._magnitude);
-    }else{
-      return new math.Vector2(0,0);
-    }
+    return this.force;
   }
 
   function onUpdate( event ) {

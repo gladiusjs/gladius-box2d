@@ -90,12 +90,11 @@ define( function ( require ) {
     //Go through the list of registered components,
     // add up all the global forces into gravity,
     // and then set the gravity on the world
-    // Also make sure that we transform each force according to the transforms of whatever parent objects that transform has
-    // this would be a good unit test
+    // TODO: Make sure that we transform each force according to the transforms of whatever parent objects it has
     var totalForce = new math.Vector2();
     var entityId;
     for (entityId in registeredComponents["Force"]){
-      math.vector2.add(totalForce, registeredComponents["Force"][entityId].getForce(), totalForce);
+      math.vector2.add(totalForce, registeredComponents["Force"][entityId].force, totalForce);
     }
 
     var newGravity = new Box2D.b2Vec2(totalForce[0], totalForce[1]);
