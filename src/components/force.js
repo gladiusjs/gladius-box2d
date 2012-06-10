@@ -13,24 +13,12 @@ define( function ( require ) {
     options = options || {};
     var that = this;
 
-    if (options.force){
-      this.force = options.force;
-    }else{
-      this.force = new math.Vector2();
-    }
+    this.forceType = (undefined !== options.forceType ) ? options.forceType : Force.ForceTypes.GLOBAL;
 
-    if (options.forceType){
-      this.forceType = options.forceType;
-    }else{
-      this.forceType = 0;
-    }
+    this.force = options.force || new math.Vector2();
   };
   Force.prototype = new Component();
   Force.prototype.constructor = Force;
-
-  function onUpdate( event ) {
-
-  }
 
   function onEntitySpaceChanged( event ) {
     var data = event.data;
@@ -63,8 +51,12 @@ define( function ( require ) {
     }
   }
 
+  function setForce( forceVector ) {
+    this.force = forceVector;
+  }
+
   var prototype = {
-    onUpdate: onUpdate,
+    setForce: setForce,
     onEntitySpaceChanged: onEntitySpaceChanged,
     onComponentOwnerChanged: onComponentOwnerChanged,
     onEntityActivationChanged: onEntityActivationChanged

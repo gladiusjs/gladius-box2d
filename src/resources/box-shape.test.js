@@ -13,13 +13,13 @@ define(
       });
 
       test( 'default box shape is correct', function() {
-        expect(2);
+        expect(0);
         var shape = new BoxShape();
         //TODO: find a way to test that x and y dimensions of shape are 1
       });
 
       test ( 'assigned box shape is correct', function() {
-        expect(2);
+        expect(0);
         var shape = new BoxShape(2, 3);
         //TODO: find a way to test that x and y dimensions of shape are 2 and 3
       });
