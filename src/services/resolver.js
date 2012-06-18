@@ -101,7 +101,7 @@ define( function ( require ) {
 
     this.world.SetGravity(newGravity);
     // Update all physics components
-    var updateEvent = new Event( 'Update', false );
+    var updateEvent = new Event( 'Update', undefined, false );
     for( var componentType in registeredComponents ) {
       for( entityId in registeredComponents[componentType] ) {
         component = registeredComponents[componentType][entityId];
