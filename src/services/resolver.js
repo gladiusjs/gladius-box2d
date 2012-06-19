@@ -97,9 +97,10 @@ define( function ( require ) {
       math.vector2.add(totalForce, registeredComponents["Force"][entityId].force, totalForce);
     }
 
-    var newGravity = new Box2D.b2Vec2(totalForce[0], totalForce[1]);
+    var gravity = this.world.GetGravity();
+    gravity.Set(totalForce[0], totalForce[1]);
 
-    this.world.SetGravity(newGravity);
+    this.world.SetGravity(gravity);
     // Update all physics components
     var updateEvent = new Event( 'Update', undefined, false );
     for( var componentType in registeredComponents ) {
