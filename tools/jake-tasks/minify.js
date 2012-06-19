@@ -1,8 +1,6 @@
-var jake = require( "jake" );
-
 module.exports = function() {
   var cmds = [
-              "uglifyjs --output dist/gladius-box2d.min.js dist/gladius-box2d.js"
+              "uglifyjs --output dist/gladius-core.min.js dist/gladius-core.js"
               ];
   var callback = function() {
   };
