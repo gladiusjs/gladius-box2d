@@ -12,7 +12,7 @@ Before you can build and test, you'll need to set up your development environmen
 
 3. Clone the repository.
 
-            git clone git://github.com/gladiusjs/gladius-core.git
+            git clone git://github.com/gladiusjs/gladius-box2d.git
 
 4. Run `jake` in the project directory. You should see the following output:
 
