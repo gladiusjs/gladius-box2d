@@ -97,7 +97,7 @@ define( function ( require ) {
       math.vector2.add(totalForce, registeredComponents["Force"][entityId].force, totalForce);
     }
 
-    this.gravity.Set(totalForce[0], totalForce[1]);
+    this.gravity.Set(totalForce.getValue(0), totalForce.getValue(1));
 
     this.world.SetGravity(this.gravity);
     // Update all physics components
