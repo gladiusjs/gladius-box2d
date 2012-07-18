@@ -94,7 +94,7 @@ define( function ( require ) {
     var totalForce = new math.Vector2();
     var entityId;
     for (entityId in registeredComponents["Force"]){
-      math.vector2.add(totalForce, registeredComponents["Force"][entityId].force, totalForce);
+      totalForce.add(registeredComponents["Force"][entityId].force);
     }
 
     this.gravity.Set(totalForce.x, totalForce.y);
