@@ -57,8 +57,9 @@ define( function ( require ) {
 
     // TD: This will cause the transform to emit an event that we handle below. Blech!
     var transform = this.owner.findComponent( "Transform" );
-    transform.position = [ position2.get_x(), position2.get_y(), transform.position.z ];
-    transform.rotation = [ transform.rotation.x, transform.rotation.y, angle2 ];
+    //Note: It is currently okay to read from buffers, but writing to them will result in things breaking
+    transform.position = [ position2.get_x(), position2.get_y(), transform.position.buffer[2] ];
+    transform.rotation.z = angle2;
   }
 
   function onEntitySpaceChanged( event ) {
@@ -86,7 +87,8 @@ define( function ( require ) {
 
     if( this.owner ) {
       var transform = this.owner.findComponent( 'Transform' );
-      this.box2dBody.SetTransform( new Box2D.b2Vec2( transform.position.x, transform.position.y ), transform.rotation.z );
+      //Note: It is currently okay to read from buffers, but writing to them will result in things breaking
+      this.box2dBody.SetTransform( new Box2D.b2Vec2( transform.position.buffer[0], transform.position.buffer[1] ), transform.rotation.buffer[2] );
     }
 
     if( this.owner === null && data.previous !== null ) {
