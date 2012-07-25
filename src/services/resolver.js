@@ -77,6 +77,8 @@ define( function ( require ) {
     this.world.SetContactListener( contactListener );
   };
 
+  var totalForce = new math.Vector2();
+
   function resolve() {
     var component;
 
@@ -91,13 +93,13 @@ define( function ( require ) {
     // add up all the global forces into gravity,
     // and then set the gravity on the world
     // TODO: Make sure that we transform each force according to the transforms of whatever parent objects it has
-    var totalForce = new math.Vector2();
+    totalForce.clear();
     var entityId;
     for (entityId in registeredComponents["Force"]){
-      math.vector2.add(totalForce, registeredComponents["Force"][entityId].force, totalForce);
+      totalForce.add(registeredComponents["Force"][entityId].force);
     }
 
-    this.gravity.Set(totalForce[0], totalForce[1]);
+    this.gravity.Set(totalForce.x, totalForce.y);
 
     this.world.SetGravity(this.gravity);
     // Update all physics components
