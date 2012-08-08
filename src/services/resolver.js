@@ -20,9 +20,9 @@ define( function ( require ) {
     };
     Service.call( this, scheduler, schedules );
 
-    options.gravity = options.gravity || [0, 0];
     this.gravity = new Box2D.b2Vec2();
     this.world = new Box2D.b2World( this.gravity );
+    this.dimensionMap = options.dimensionMap || 0;
     this._timeStep = 30;  // time step, in milliseconds
     this._timeRemaining = 0;    // time remaining from last frame, in milliseconds
 
@@ -79,6 +79,12 @@ define( function ( require ) {
 
   var totalForce = new math.Vector2();
 
+  var DimensionMaps = {
+    XY: 0,
+    XZ: 1,
+    YZ: 2
+  };
+
   function resolve() {
     var component;
 
@@ -124,6 +130,7 @@ define( function ( require ) {
   Resolver.prototype = new Service();
   Resolver.prototype.constructor = Resolver;
   Resolver.prototype.resolve = resolve;
+  Resolver.prototype.DimensionMaps = DimensionMaps;
 
   return Resolver;
 
