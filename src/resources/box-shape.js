@@ -6,8 +6,8 @@ if ( typeof define !== "function" ) {
 define( function ( require ) {
   require( "box2d" );
   var BoxShape = function( hx, hy ) {
-    hx = hx || 1;
-    hy = hy || 1;
+    hx = hx/2 || 0.5;
+    hy = hy/2 || 0.5;
     var box2dPolygonShape = new Box2D.b2PolygonShape();
     box2dPolygonShape._gladius = {};
     box2dPolygonShape.SetAsBox( hx, hy );
