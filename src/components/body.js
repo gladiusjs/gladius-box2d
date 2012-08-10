@@ -14,6 +14,8 @@ define( function ( require ) {
     var that = this;
     var i;
 
+    this.service = service;
+
     if( options.bodyDefinition) {
       this.box2dBody = service.world.CreateBody( options.bodyDefinition );
     } else {
@@ -58,8 +60,16 @@ define( function ( require ) {
     // TD: This will cause the transform to emit an event that we handle below. Blech!
     var transform = this.owner.findComponent( "Transform" );
     //Note: It is currently okay to read from buffers, but writing to them will result in things breaking
-    transform.position = [ position2.get_x(), position2.get_y(), transform.position.buffer[2] ];
-    transform.rotation.z = angle2;
+    if (this.service.dimensionMap === this.service.DimensionMaps.XY){
+      transform.position = [ position2.get_x(), position2.get_y(), transform.position.buffer[2] ];
+      transform.rotation.z = angle2;
+    }else if (this.service.dimensionMap === this.service.DimensionMaps.XZ){
+      transform.position = [ position2.get_x(), transform.position.buffer[1], position2.get_y()];
+      transform.rotation.y = angle2;
+    }else{
+      transform.position = [transform.position.buffer[0], position2.get_y(), position2.get_x()];
+      transform.rotation.x = angle2;
+    }
   }
 
   function onEntitySpaceChanged( event ) {
@@ -88,7 +98,13 @@ define( function ( require ) {
     if( this.owner ) {
       var transform = this.owner.findComponent( 'Transform' );
       //Note: It is currently okay to read from buffers, but writing to them will result in things breaking
-      this.box2dBody.SetTransform( new Box2D.b2Vec2( transform.position.buffer[0], transform.position.buffer[1] ), transform.rotation.buffer[2] );
+      if (this.service.dimensionMap === this.service.DimensionMaps.XY){
+        this.box2dBody.SetTransform( new Box2D.b2Vec2( transform.position.buffer[0], transform.position.buffer[1] ), transform.rotation.buffer[2] );
+      }else if (this.service.dimensionMap === this.service.DimensionMaps.XZ){
+        this.box2dBody.SetTransform( new Box2D.b2Vec2( transform.position.buffer[0], transform.position.buffer[2] ), transform.rotation.buffer[1] );
+      }else{
+        this.box2dBody.SetTransform( new Box2D.b2Vec2( transform.position.buffer[2], transform.position.buffer[1] ), transform.rotation.buffer[0] );
+      }
     }
 
     if( this.owner === null && data.previous !== null ) {
