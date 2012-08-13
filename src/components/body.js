@@ -41,12 +41,28 @@ define( function ( require ) {
   Body.prototype = new Component();
   Body.prototype.constructor = Body;
 
-  var linearImpulse = new Box2D.b2Vec2( 0, 0 );
+  var linearVector = new Box2D.b2Vec2( 0, 0 );
+
+  function setAngularVelocity(rotation){
+    this.box2dBody.SetAngularVelocity(rotation);
+  }
+
+  function setLinearVelocity(arg1, arg2) {
+    var argc = arguments.length;
+    if( 1 === argc ) {
+      linearVector.Set( arg1[0], arg1[1] );
+    }else{
+      linearVector.Set( arg1, arg2);
+    }
+    this.box2dBody.SetLinearVelocity( linearVector );
+    linearVector.Set( 0, 0 );
+  }
+
   function onLinearImpulse( event ) {
     var impulse = event.data.impulse;
-    linearImpulse.Set( impulse[0], impulse[1] );
-    this.box2dBody.ApplyLinearImpulse( linearImpulse, this.box2dBody.GetPosition() );
-    linearImpulse.Set( 0, 0 );
+    linearVector.Set( impulse[0], impulse[1] );
+    this.box2dBody.ApplyLinearImpulse( linearVector, this.box2dBody.GetPosition() );
+    linearVector.Set( 0, 0 );
   }
 
   function onAngularImpulse( event ) {
@@ -57,7 +73,7 @@ define( function ( require ) {
     var position2 = this.box2dBody.GetPosition();
     var angle2 = this.box2dBody.GetAngle();
 
-    // TD: This will cause the transform to emit an event that we handle below. Blech!
+
     var transform = this.owner.findComponent( "Transform" );
     //Note: It is currently okay to read from buffers, but writing to them will result in things breaking
     if (this.service.dimensionMap === this.service.DimensionMaps.XY){
@@ -128,6 +144,8 @@ define( function ( require ) {
   }
 
   var prototype = {
+    setAngularVelocity: setAngularVelocity,
+    setLinearVelocity: setLinearVelocity,
     onLinearImpulse: onLinearImpulse,
     onAngularImpulse: onAngularImpulse,
     onUpdate: onUpdate,
