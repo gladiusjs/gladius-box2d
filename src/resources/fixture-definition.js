@@ -12,6 +12,7 @@ define( function ( require ) {
     var box2dFixtureDef = new Box2D.b2FixtureDef();
     box2dFixtureDef._gladius = {};
     box2dFixtureDef.set_density( options.hasOwnProperty( 'density' ) ? options.density : 1 );
+    box2dFixtureDef.set_friction( options.hasOwnProperty( 'friction' ) ? options.friction : 0.2);
     box2dFixtureDef.set_shape( options.shape );
     return box2dFixtureDef;
   };

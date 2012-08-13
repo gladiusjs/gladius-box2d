@@ -9,6 +9,8 @@ define( function ( require ) {
 
     var box2dBodyDef = new Box2D.b2BodyDef();
     box2dBodyDef._gladius = {};
+    box2dBodyDef.set_bullet(options.hasOwnProperty( 'bullet' ) ?
+      options.bullet : false);
     box2dBodyDef.set_type( options.hasOwnProperty( 'type' ) ?
       options.type : Box2D.b2_dynamicBody );
     box2dBodyDef.set_linearDamping( options.hasOwnProperty( 'linearDamping' ) ?
