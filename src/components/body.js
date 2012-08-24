@@ -41,7 +41,7 @@ define( function ( require ) {
   Body.prototype = new Component();
   Body.prototype.constructor = Body;
 
-  var linearVector = new Box2D.b2Vec2( 0, 0 );
+  var b2Vector = new Box2D.b2Vec2( 0, 0 );
 
   function setAngularVelocity(rotation){
     this.box2dBody.SetAngularVelocity(rotation);
@@ -50,19 +50,19 @@ define( function ( require ) {
   function setLinearVelocity(arg1, arg2) {
     var argc = arguments.length;
     if( 1 === argc ) {
-      linearVector.Set( arg1[0], arg1[1] );
+      b2Vector.Set( arg1[0], arg1[1] );
     }else{
-      linearVector.Set( arg1, arg2);
+      b2Vector.Set( arg1, arg2);
     }
-    this.box2dBody.SetLinearVelocity( linearVector );
-    linearVector.Set( 0, 0 );
+    this.box2dBody.SetLinearVelocity( b2Vector );
+    b2Vector.Set( 0, 0 );
   }
 
   function onLinearImpulse( event ) {
     var impulse = event.data.impulse;
-    linearVector.Set( impulse[0], impulse[1] );
-    this.box2dBody.ApplyLinearImpulse( linearVector, this.box2dBody.GetPosition() );
-    linearVector.Set( 0, 0 );
+    b2Vector.Set( impulse[0], impulse[1] );
+    this.box2dBody.ApplyLinearImpulse( b2Vector, this.box2dBody.GetPosition() );
+    b2Vector.Set( 0, 0 );
   }
 
   function onAngularImpulse( event ) {
