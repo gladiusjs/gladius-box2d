@@ -14,6 +14,8 @@ define( function ( require ) {
     var that = this;
     var i;
 
+    this.service = service;
+
     if( options.bodyDefinition) {
       this.box2dBody = service.world.CreateBody( options.bodyDefinition );
     } else {
@@ -39,12 +41,28 @@ define( function ( require ) {
   Body.prototype = new Component();
   Body.prototype.constructor = Body;
 
-  var linearImpulse = new Box2D.b2Vec2( 0, 0 );
+  var b2Vector = new Box2D.b2Vec2( 0, 0 );
+
+  function setAngularVelocity(rotation){
+    this.box2dBody.SetAngularVelocity(rotation);
+  }
+
+  function setLinearVelocity(arg1, arg2) {
+    var argc = arguments.length;
+    if( 1 === argc ) {
+      b2Vector.Set( arg1[0], arg1[1] );
+    }else{
+      b2Vector.Set( arg1, arg2);
+    }
+    this.box2dBody.SetLinearVelocity( b2Vector );
+    b2Vector.Set( 0, 0 );
+  }
+
   function onLinearImpulse( event ) {
     var impulse = event.data.impulse;
-    linearImpulse.Set( impulse[0], impulse[1] );
-    this.box2dBody.ApplyLinearImpulse( linearImpulse, this.box2dBody.GetPosition() );
-    linearImpulse.Set( 0, 0 );
+    b2Vector.Set( impulse[0], impulse[1] );
+    this.box2dBody.ApplyLinearImpulse( b2Vector, this.box2dBody.GetPosition() );
+    b2Vector.Set( 0, 0 );
   }
 
   function onAngularImpulse( event ) {
@@ -55,11 +73,19 @@ define( function ( require ) {
     var position2 = this.box2dBody.GetPosition();
     var angle2 = this.box2dBody.GetAngle();
 
-    // TD: This will cause the transform to emit an event that we handle below. Blech!
+
     var transform = this.owner.findComponent( "Transform" );
     //Note: It is currently okay to read from buffers, but writing to them will result in things breaking
-    transform.position = [ position2.get_x(), position2.get_y(), transform.position.buffer[2] ];
-    transform.rotation.z = angle2;
+    if (this.service.dimensionMap === this.service.DimensionMaps.XY){
+      transform.position = [ position2.get_x(), position2.get_y(), transform.position.buffer[2] ];
+      transform.rotation.z = angle2;
+    }else if (this.service.dimensionMap === this.service.DimensionMaps.XZ){
+      transform.position = [ position2.get_x(), transform.position.buffer[1], position2.get_y()];
+      transform.rotation.y = angle2;
+    }else{
+      transform.position = [transform.position.buffer[0], position2.get_y(), position2.get_x()];
+      transform.rotation.x = angle2;
+    }
   }
 
   function onEntitySpaceChanged( event ) {
@@ -88,7 +114,13 @@ define( function ( require ) {
     if( this.owner ) {
       var transform = this.owner.findComponent( 'Transform' );
       //Note: It is currently okay to read from buffers, but writing to them will result in things breaking
-      this.box2dBody.SetTransform( new Box2D.b2Vec2( transform.position.buffer[0], transform.position.buffer[1] ), transform.rotation.buffer[2] );
+      if (this.service.dimensionMap === this.service.DimensionMaps.XY){
+        this.box2dBody.SetTransform( new Box2D.b2Vec2( transform.position.buffer[0], transform.position.buffer[1] ), transform.rotation.buffer[2] );
+      }else if (this.service.dimensionMap === this.service.DimensionMaps.XZ){
+        this.box2dBody.SetTransform( new Box2D.b2Vec2( transform.position.buffer[0], transform.position.buffer[2] ), transform.rotation.buffer[1] );
+      }else{
+        this.box2dBody.SetTransform( new Box2D.b2Vec2( transform.position.buffer[2], transform.position.buffer[1] ), transform.rotation.buffer[0] );
+      }
     }
 
     if( this.owner === null && data.previous !== null ) {
@@ -112,6 +144,8 @@ define( function ( require ) {
   }
 
   var prototype = {
+    setAngularVelocity: setAngularVelocity,
+    setLinearVelocity: setLinearVelocity,
     onLinearImpulse: onLinearImpulse,
     onAngularImpulse: onAngularImpulse,
     onUpdate: onUpdate,
