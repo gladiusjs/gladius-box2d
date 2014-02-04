@@ -20,7 +20,6 @@ define( function ( require ) {
     };
     Service.call( this, scheduler, schedules );
 
-    options.gravity = options.gravity || [0, 0];
     this.gravity = new Box2D.b2Vec2();
     this.world = new Box2D.b2World( this.gravity );
     this._timeStep = 30;  // time step, in milliseconds

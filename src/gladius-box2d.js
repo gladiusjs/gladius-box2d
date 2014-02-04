@@ -26,7 +26,8 @@ define( function ( require ) {
       resources: {
         "BodyDefinition": require( "src/resources/body-definition" ),
         "FixtureDefinition": require( "src/resources/fixture-definition" ),
-        "BoxShape": require( "src/resources/box-shape" )
+        "BoxShape": require( "src/resources/box-shape" ),
+        "CircleShape": require( "src/resources/circle-shape" )
       }
       
   });
